@@ -1,51 +1,56 @@
-//{ Driver Code Starts
-// Initial Template for C++
-
-#include <bits/stdc++.h>
-using namespace std;
-
-// } Driver Code Ends
-// User function Template for C++
-
-// User function Template for C++
-
 class Solution{
 public:
-    int hopscotch(int n, int m, vector<vector<int>> mat, int ty, int i, int j)
-    {
-        // code here
-        int ans=0,t=-pow(-1,(j&1));
-        vector<vector<int>> dx={{0,-1,0,1,t,t},{0,-2,0,2,-1,-1,1,1,-t,-t,2*t,2*t}};
-        vector<vector<int>> dy={{-1,0,1,0,-1,1},{-2,0,2,0,-2,2,-2,2,-1,1,-1,1}};
-        for(int k=0;k<6*(ty+1);k++) {
-            int x=i+dx[ty][k],y=j+dy[ty][k];
-            if(x>=0 && x<n && y>=0 && y<m) {
-                ans+=mat[x][y];
+    int hopscotch(int n, int m, vector<vector<int>> mat, int ty, int i, int j){
+        
+        int sum = 0;
+        vector<int> arrx, arry;
+        int loop;
+        
+        //If distance is 0
+        if(ty==0){
+            
+            loop = 6;
+        
+            //Even Column
+            if(j%2==0){
+                arrx = {-1,-1,-1,0,1,0};
+                arry = {-1,0,1,1,0,-1};
+            }
+            //Odd Column
+            else{
+                arrx = {0,-1,0,1,1,1};
+                arry = {-1,0,1,1,0,-1};
             }
         }
-        return ans;
+        
+        //If distance is 1
+        else{
+            
+            loop = 12;
+            
+            //Even Column
+            if(j%2==0){
+                arrx = {-1,-2,-2,-2,-1,0,1,1,2,1,1,0};
+                arry = {-2,-1,0,1,2,2,2,1,0,-1,-2,-2};
+            }
+            
+            //Even Column
+            else{
+                arrx = {-1,-1,-2,-1,-1,0,1,2,2,2,1,0};
+                arry = {-2,-1,0,1,2,2,2,1,0,-1,-2,-2};
+            }
+        }
+        
+        for(int k=0; k<loop; k++){
+            int x = i + arrx[k];
+            int y = j + arry[k];
+            
+            if((x>=0 and x<n) and (y>=0 and y<m)){
+                sum = sum + mat[x][y];
+            }
+        }
+        
+        
+        return sum;
     }
 };
-
-
-
-//{ Driver Code Starts.
-
-int main(){
-    int t;
-    cin>>t;
-    while(t--){
-        int n, m, ty, i, j;
-        cin>>n>>m;
-        vector<vector<int>> mat(n, vector<int>(m, 0));
-        for(int i = 0;i < n;i++)
-            for(int j = 0;j < m;j++)
-                cin>>mat[i][j];
-        cin>>ty>>i>>j;
-        
-        Solution ob;
-        cout<<ob.hopscotch(n, m, mat, ty, i, j)<<"\n";
-    }
-    return 0;
-}
-// } Driver Code Ends
